@@ -15,13 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import agendadoprofessor.pds.ufrn.com.br.agendadoprofessor.dto.ProfessorDTO;
-import agendadoprofessor.pds.ufrn.com.br.agendadoprofessor.dto.StudentDTO;
 import agendadoprofessor.pds.ufrn.com.br.agendadoprofessor.service.ProfessorService;
-import agendadoprofessor.pds.ufrn.com.br.agendadoprofessor.service.StudentService;
 import agendaufrnfw.ufrn.imd.pds.dto.ClassDTO;
 import agendaufrnfw.ufrn.imd.pds.dto.EvaluationDTO;
 import agendaufrnfw.ufrn.imd.pds.dto.TaskDTO;
+import agendaufrnfw.ufrn.imd.pds.model.Professor;
 import agendaufrnfw.ufrn.imd.pds.util.DateUtil;
 
 public class ProfessorActivity extends AppCompatActivity {
@@ -44,7 +42,7 @@ public class ProfessorActivity extends AppCompatActivity {
             String token = getIntent().getStringExtra("token");
             ProfessorService professorService = new ProfessorService(token);
             try {
-                ProfessorDTO pDto = professorService.execute().get();
+                Professor pDto = professorService.execute().get();
                 tvNome.setText(pDto.getNome());
                 tvCpf.setText(pDto.getCpf());
                 tvCargo.setText(pDto.getCargo());
