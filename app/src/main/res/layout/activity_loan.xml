@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="pds.ufrn.com.br.agendadoaluno.LoanActivity">
+    tools:context="agendadoprofessor.pds.ufrn.com.br.agendadoprofessor.LoanActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/menu"

@@ -39,7 +39,7 @@ public class MenuActivity extends AppCompatActivity {
         switch (id){
             case R.id.item_tarefas_avaliacoes:
                 intent = new Intent();
-                intent.setClass(this, StudentActivity.class);
+                intent.setClass(this, ProfessorActivity.class);
                 startActivity(intent);
                 return true;
             case R.id.item_calendario:

@@ -4,7 +4,10 @@ import com.google.gson.Gson;
 
 import java.util.List;
 
-public class StudentDTO {
+import agendaufrnfw.ufrn.imd.pds.dto.ClassDTO;
+import agendaufrnfw.ufrn.imd.pds.dto.DTO;
+
+public class StudentDTO extends DTO{
 
     private int ano_ingresso;
     private String cpf_cnpj;
@@ -107,22 +110,16 @@ public class StudentDTO {
         return gson.toJson(this);
     }
 
-    public static StudentDTO toObject(String json) {
+    @Override
+    public StudentDTO toObject(String json) {
         Gson gson = new Gson();
         return gson.fromJson(json, StudentDTO.class);
     }
 
-    public static StudentDTO[] toArrayObject(String json) {
+    @Override
+    public StudentDTO[] toArrayObject(String json) {
         Gson gson = new Gson();
         //json = trataJson(json);
         return gson.fromJson(json, StudentDTO[].class);
-    }
-
-    public static String trataJson(String json) {
-        if (json.contains("-")) {
-            return json.replace("-", "_");
-        } else {
-            return json;
-        }
     }
 }

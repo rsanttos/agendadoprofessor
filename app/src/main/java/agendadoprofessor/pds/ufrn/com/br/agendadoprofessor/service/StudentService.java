@@ -4,7 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import agendadoprofessor.pds.ufrn.com.br.agendadoprofessor.dto.StudentDTO;
-import agendadoprofessor.pds.ufrn.com.br.agendadoprofessor.request.StudentRequest;
+import agendaufrnfw.ufrn.imd.pds.request.StudentRequest;
 
 /**
  * Created by f202359 on 13/04/2018.
@@ -19,8 +19,8 @@ public class StudentService extends AsyncTask<Void, Void, StudentDTO> {
     @Override
     protected StudentDTO doInBackground(Void... params) {
         StudentRequest studentRequest = new StudentRequest();
-        StudentDTO studentDto = StudentDTO.toObject(studentRequest.getEvaluationsAndTasksStudentLoggedIn(token));
-        return studentDto;
+        StudentDTO studentDto = new StudentDTO();
+        return studentDto.toObject(studentRequest.getEvaluationsAndTasksStudentLoggedIn(token));
     }
 
     @Override

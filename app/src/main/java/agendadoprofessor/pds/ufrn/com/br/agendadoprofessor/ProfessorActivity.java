@@ -1,9 +1,9 @@
 package agendadoprofessor.pds.ufrn.com.br.agendadoprofessor;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,21 +15,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import agendadoprofessor.pds.ufrn.com.br.agendadoprofessor.dto.ProfessorDTO;
 import agendadoprofessor.pds.ufrn.com.br.agendadoprofessor.dto.StudentDTO;
+import agendadoprofessor.pds.ufrn.com.br.agendadoprofessor.service.ProfessorService;
 import agendadoprofessor.pds.ufrn.com.br.agendadoprofessor.service.StudentService;
 import agendaufrnfw.ufrn.imd.pds.dto.ClassDTO;
 import agendaufrnfw.ufrn.imd.pds.dto.EvaluationDTO;
 import agendaufrnfw.ufrn.imd.pds.dto.TaskDTO;
+import agendaufrnfw.ufrn.imd.pds.util.DateUtil;
 
-public class StudentActivity extends AppCompatActivity {
-
+public class ProfessorActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_student);
+        setContentView(R.layout.activity_professor);
         TextView tvNome = (TextView) findViewById(R.id.tvNome);
-        TextView tvCurso = (TextView) findViewById(R.id.tvCurso);
-        TextView tvMatricula = (TextView) findViewById(R.id.tvMatricula);
+        TextView tvCpf = (TextView) findViewById(R.id.tvCpf);
+        TextView tvCargo = (TextView) findViewById(R.id.tvCargo);
+        TextView tvSiape = (TextView) findViewById(R.id.tvSiape);
+        TextView tvUnidade = (TextView) findViewById(R.id.tvUnidade);
+        TextView tvDataAdmissao = (TextView) findViewById(R.id.tvDataAdmissao);
         ListView lvTarefas = (ListView) findViewById(R.id.lvTarefas);
         ListView lvAvaliacoes = (ListView) findViewById(R.id.lvAvaliacoes);
 
@@ -37,15 +42,18 @@ public class StudentActivity extends AppCompatActivity {
 
         if(getIntent().hasExtra("token")){
             String token = getIntent().getStringExtra("token");
-            StudentService studentService = new StudentService(token);
+            ProfessorService professorService = new ProfessorService(token);
             try {
-                StudentDTO student = studentService.execute().get();
-                tvNome.setText(student.getNome_discente());
-                tvCurso.setText(student.getNome_curso());
-                tvMatricula.setText(String.valueOf(student.getMatricula()));
+                ProfessorDTO pDto = professorService.execute().get();
+                tvNome.setText(pDto.getNome());
+                tvCpf.setText(pDto.getCpf());
+                tvCargo.setText(pDto.getCargo());
+                tvSiape.setText(pDto.getSiape());
+                tvUnidade.setText(pDto.getUnidade());
+                tvDataAdmissao.setText(DateUtil.format(pDto.getData_admissao()));
                 List<TaskDTO> allTasks = new ArrayList<TaskDTO>();
                 List<EvaluationDTO> allEvaluations = new ArrayList<EvaluationDTO>();
-                for(ClassDTO classe : student.getClasses()){
+                for(ClassDTO classe : pDto.getClasses()){
                     allTasks.addAll(classe.getTasks());
                     allEvaluations.addAll(classe.getEvaluations());
                 }
@@ -91,7 +99,7 @@ public class StudentActivity extends AppCompatActivity {
         switch (id){
             case R.id.item_tarefas_avaliacoes:
                 intent = new Intent();
-                intent.setClass(this, StudentActivity.class);
+                intent.setClass(this, ProfessorActivity.class);
                 token = getIntent().getStringExtra("token");
                 intent.putExtra("token", token);
                 startActivity(intent);

@@ -15,11 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import agendadoprofessor.pds.ufrn.com.br.agendadoprofessor.dto.LoanDTO;
 import agendadoprofessor.pds.ufrn.com.br.agendadoprofessor.dto.StudentDTO;
 import agendadoprofessor.pds.ufrn.com.br.agendadoprofessor.service.LoanService;
 import agendadoprofessor.pds.ufrn.com.br.agendadoprofessor.service.LoanService;
 import agendadoprofessor.pds.ufrn.com.br.agendadoprofessor.service.StudentService;
+import agendaufrnfw.ufrn.imd.pds.dto.LoanDTO;
 
 public class LoanActivity extends AppCompatActivity {
 

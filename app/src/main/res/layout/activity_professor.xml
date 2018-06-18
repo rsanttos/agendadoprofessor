@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="agendadoprofessor.pds.ufrn.com.br.agendadoprofessor.StudentActivity">
+    tools:context="agendadoprofessor.pds.ufrn.com.br.agendadoprofessor.ProfessorActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/menu"
@@ -25,17 +25,34 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/tvCurso"
+        android:id="@+id/tvCpf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView" />
 
     <TextView
-        android:id="@+id/tvMatricula"
+        android:id="@+id/tvCargo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView" />
 
+    <TextView
+        android:id="@+id/tvSiape"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/tvUnidade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/tvDataAdmissao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
 
     <TextView
         android:id="@+id/tvTarefas"
@@ -44,6 +61,7 @@
         android:text="Tarefas"
         android:textSize="24sp"
         android:textStyle="bold" />
+
     <ListView
         android:id="@+id/lvTarefas"
         android:layout_width="wrap_content"

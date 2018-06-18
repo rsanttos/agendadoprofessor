@@ -13,9 +13,9 @@ import android.widget.TextView;
 
 import java.util.concurrent.ExecutionException;
 
-import agendadoprofessor.pds.ufrn.com.br.agendadoprofessor.dto.CalendarDTO;
-import agendadoprofessor.pds.ufrn.com.br.agendadoprofessor.dto.HolidayDTO;
 import agendadoprofessor.pds.ufrn.com.br.agendadoprofessor.service.CalendarService;
+import agendaufrnfw.ufrn.imd.pds.dto.CalendarDTO;
+import agendaufrnfw.ufrn.imd.pds.dto.HolidayDTO;
 
 public class CalendarActivity extends AppCompatActivity {
 
@@ -78,7 +78,7 @@ public class CalendarActivity extends AppCompatActivity {
         switch (id){
             case R.id.item_tarefas_avaliacoes:
                 intent = new Intent();
-                intent.setClass(this, StudentActivity.class);
+                intent.setClass(this, ProfessorActivity.class);
                 token = getIntent().getStringExtra("token");
                 intent.putExtra("token", token);
                 startActivity(intent);

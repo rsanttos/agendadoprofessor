@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/background_light"
-    tools:context="pds.ufrn.com.br.agendadoaluno.Calendar"
+    tools:context="agendadoprofessor.pds.ufrn.com.br.agendadoprofessor.Calendar"
     tools:layout_editor_absoluteY="25dp">
 
     <ScrollView

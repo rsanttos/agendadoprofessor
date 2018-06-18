@@ -138,7 +138,7 @@ public class Login extends AppCompatActivity {
 
             if(status){
                 //Intent startOffersActivity = new Intent(Login.this, Calendar.class);
-                Intent startOffersActivity = new Intent(Login.this, StudentActivity.class);
+                Intent startOffersActivity = new Intent(Login.this, ProfessorActivity.class);
                 startOffersActivity.putExtra("token", token);
                 Login.this.startActivity(startOffersActivity);
             }

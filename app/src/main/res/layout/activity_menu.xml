@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="pds.ufrn.com.br.agendadoaluno.MenuActivity">
+    tools:context="agendadoprofessor.pds.ufrn.com.br.agendadoprofessor.MenuActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/menu"

@@ -3,8 +3,8 @@ package agendadoprofessor.pds.ufrn.com.br.agendadoprofessor.service;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import agendadoprofessor.pds.ufrn.com.br.agendadoprofessor.dto.LoanDTO;
-import agendadoprofessor.pds.ufrn.com.br.agendadoprofessor.request.LoanRequest;
+import agendaufrnfw.ufrn.imd.pds.dto.LoanDTO;
+import agendaufrnfw.ufrn.imd.pds.request.LoanRequest;
 
 /**
  * Created by root on 23/04/18.
@@ -21,7 +21,8 @@ public class LoanService extends AsyncTask<Void, Void, LoanDTO[]> {
     @Override
     protected LoanDTO[] doInBackground(Void... params) {
         LoanRequest loanRequest = new LoanRequest();
-        LoanDTO[] loans = LoanDTO.toArrayObject(loanRequest.getStudentLoans(cpf, token));
+        LoanDTO lDto = new LoanDTO();
+        LoanDTO[] loans = lDto.toArrayObject(loanRequest.getStudentLoans(cpf, token));
         return loans;
     }
 
