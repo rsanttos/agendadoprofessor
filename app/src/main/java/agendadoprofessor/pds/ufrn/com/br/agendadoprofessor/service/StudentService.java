@@ -20,7 +20,7 @@ public class StudentService extends AsyncTask<Void, Void, StudentDTO> {
     protected StudentDTO doInBackground(Void... params) {
         StudentRequest studentRequest = new StudentRequest();
         StudentDTO studentDto = new StudentDTO();
-        return studentDto.toObject(studentRequest.getEvaluationsAndTasksStudentLoggedIn(token));
+        return studentDto.toObject(studentRequest.getEvaluationsAndTasksGraduateStudentLoggedIn(token));
     }
 
     @Override
