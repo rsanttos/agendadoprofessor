@@ -76,6 +76,13 @@ public class CalendarActivity extends AppCompatActivity {
         String token = "";
         int id = item.getItemId();
         switch (id){
+            case R.id.item_calendario_compromissos:
+                intent = new Intent();
+                intent.setClass(this, CalendarCustomActivity.class);
+                token = getIntent().getStringExtra("token");
+                intent.putExtra("token", token);
+                startActivity(intent);
+                return true;
             case R.id.item_tarefas_avaliacoes:
                 intent = new Intent();
                 intent.setClass(this, ProfessorActivity.class);

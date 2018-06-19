@@ -31,7 +31,8 @@
         <activity android:name=".StudentActivity" />
         <activity android:name=".MenuActivity" />
         <activity android:name=".LoanActivity" />
-        <activity android:name=".ProfessorActivity"></activity>
+        <activity android:name=".ProfessorActivity" />
+        <activity android:name=".CalendarCustomActivity"></activity>
     </application>
 
 </manifest>
