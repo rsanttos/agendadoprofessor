@@ -38,12 +38,14 @@ import agendaufrnfw.ufrn.imd.pds.util.DateUtil;
 
 public class CalendarCustomActivity extends AppCompatActivity {
     TextView tvNome;
+    TextView tvUnidade;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar_custom);
 
         tvNome = (TextView) findViewById(R.id.tvNome);
+        tvUnidade = (TextView) findViewById(R.id.tvUnidade);
 
         criarBarraMenu();
 
@@ -77,6 +79,7 @@ public class CalendarCustomActivity extends AppCompatActivity {
                 cDto = calendarService.execute().get();
                 Professor pDto = professorService.execute().get();
                 tvNome.setText(pDto.getNome());
+                tvUnidade.setText(pDto.getUnidade());
                 for(ClassDTO classe : pDto.getClasses()){
                     allTasks.addAll(classe.getTasks());
                     allEvaluations.addAll(classe.getEvaluations());
