@@ -129,6 +129,23 @@ public class CalendarCustomActivity extends AppCompatActivity {
         EventDay eventDay = new EventDay(c, R.drawable.end_period);
         eventsCalendar.add(eventDay);
 
+        Calendar c1 = Calendar.getInstance();
+        c1.setTimeInMillis(professorCalendar.getInicio_periodo());
+        EventDay eventDay1 = new EventDay(c1, R.drawable.start_period);
+        eventsCalendar.add(eventDay1);
+
+
+        Calendar c2 = Calendar.getInstance();
+        c2.setTimeInMillis(professorCalendar.getInicio_matricula_online());
+        EventDay eventDay2 = new EventDay(c2, R.drawable.start_matricula);
+        eventsCalendar.add(eventDay2);
+
+
+        Calendar c3 = Calendar.getInstance();
+        c3.setTimeInMillis(professorCalendar.getFim_matricula_online());
+        EventDay eventDay3 = new EventDay(c3, R.drawable.finish_matricula);
+        eventsCalendar.add(eventDay3);
+
         return eventsCalendar;
     }
 
