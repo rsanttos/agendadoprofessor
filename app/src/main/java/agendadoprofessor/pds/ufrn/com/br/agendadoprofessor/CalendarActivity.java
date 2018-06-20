@@ -16,6 +16,8 @@ import java.util.concurrent.ExecutionException;
 import agendadoprofessor.pds.ufrn.com.br.agendadoprofessor.service.CalendarService;
 import agendaufrnfw.ufrn.imd.pds.dto.CalendarDTO;
 import agendaufrnfw.ufrn.imd.pds.dto.HolidayDTO;
+import agendaufrnfw.ufrn.imd.pds.model.calendar.CalendarUFRN;
+import agendaufrnfw.ufrn.imd.pds.model.calendar.Holiday;
 
 public class CalendarActivity extends AppCompatActivity {
 
@@ -33,7 +35,7 @@ public class CalendarActivity extends AppCompatActivity {
         TextView tvPeriodo = (TextView) findViewById(R.id.tvValorPeriodo);
 
         CalendarService calendarService = new CalendarService();
-        CalendarDTO calendarDTO = null;
+        CalendarUFRN calendarDTO = null;
         try {
             calendarDTO = calendarService.execute().get();
         } catch (InterruptedException e) {
@@ -42,14 +44,14 @@ public class CalendarActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         if(calendarDTO != null){
-            tvAno.setText(String.valueOf(calendarDTO.getYear()));
-            tvMatricula.setText(calendarDTO.getFormattedStartOnlineEnrollment() + " - " + calendarDTO.getFormattedEndOnlineEnrollment());
-            tvMatriculaExtraordinaria.setText(calendarDTO.getFormattedStartExtraordinaryEnrollment() + " - " + calendarDTO.getFormattedEndExtraordinaryEnrollment());
-            tvPeriodo.setText(calendarDTO.getFormattedStartPeriod() + " - " + calendarDTO.getFormattedEndPeriod());
-            tvRematricula.setText(calendarDTO.getFormattedStartReEnrollment() + " - " + calendarDTO.getFormattedEndReEnrollment());
+            tvAno.setText(String.valueOf(calendarDTO.getAno()));
+            tvMatricula.setText(calendarDTO.getInicio_matricula_online() + " - " + calendarDTO.getFim_matricula_online());
+            tvMatriculaExtraordinaria.setText(calendarDTO.getInicio_matricula_extraordinaria() + " - " + calendarDTO.getFim_matricula_extraordinaria());
+            tvPeriodo.setText(calendarDTO.getInicio_periodo() + " - " + calendarDTO.getFim_periodo());
+            tvRematricula.setText(calendarDTO.getInicio_rematricula() + " - " + calendarDTO.getFim_rematricula());
 
             ListView lvHolidays = (ListView) findViewById(R.id.lvFeriados);
-            ArrayAdapter<HolidayDTO> arrayAdapterHolidays = new ArrayAdapter<HolidayDTO>(this,
+            ArrayAdapter<Holiday> arrayAdapterHolidays = new ArrayAdapter<Holiday>(this,
                     android.R.layout.simple_list_item_1, calendarDTO.getHolidays());
             lvHolidays.setAdapter(arrayAdapterHolidays);
         }

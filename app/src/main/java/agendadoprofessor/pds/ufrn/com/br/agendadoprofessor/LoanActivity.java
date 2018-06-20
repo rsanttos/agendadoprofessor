@@ -20,6 +20,7 @@ import agendadoprofessor.pds.ufrn.com.br.agendadoprofessor.service.LoanService;
 import agendadoprofessor.pds.ufrn.com.br.agendadoprofessor.service.LoanService;
 import agendadoprofessor.pds.ufrn.com.br.agendadoprofessor.service.StudentService;
 import agendaufrnfw.ufrn.imd.pds.dto.LoanDTO;
+import agendaufrnfw.ufrn.imd.pds.model.calendar.Loan;
 
 public class LoanActivity extends AppCompatActivity {
 
@@ -37,13 +38,13 @@ public class LoanActivity extends AppCompatActivity {
                 StudentService studentService = new StudentService(token);
                 StudentDTO student = studentService.execute().get();
                 LoanService loanService = new LoanService(student.getCpf_cnpj(), token);
-                LoanDTO[] loans = loanService.execute().get();
-                List<LoanDTO> loansArray = new ArrayList<LoanDTO>();
+                Loan[] loans = loanService.execute().get();
+                List<Loan> loansArray = new ArrayList<Loan>();
                 for(int i = 0 ; i < loans.length ; i++){
                     loansArray.add(loans[i]);
                 }
                 if(loansArray.size() > 0) {
-                    ArrayAdapter<LoanDTO> arrayAdapterEmprestimos = new ArrayAdapter<LoanDTO>(this,
+                    ArrayAdapter<Loan> arrayAdapterEmprestimos = new ArrayAdapter<Loan>(this,
                             android.R.layout.simple_list_item_1, loansArray);
                     lvLoans.setAdapter(arrayAdapterEmprestimos);
                 } else {
@@ -89,7 +90,7 @@ public class LoanActivity extends AppCompatActivity {
                 return true;
             case R.id.item_tarefas_avaliacoes:
                 intent = new Intent();
-                intent.setClass(this, StudentActivity.class);
+                intent.setClass(this, ProfessorActivity.class);
                 token = getIntent().getStringExtra("token");
                 intent.putExtra("token", token);
                 startActivity(intent);

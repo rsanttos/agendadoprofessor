@@ -17,9 +17,9 @@ import java.util.concurrent.ExecutionException;
 
 import agendadoprofessor.pds.ufrn.com.br.agendadoprofessor.service.ProfessorService;
 import agendaufrnfw.ufrn.imd.pds.dto.ClassDTO;
-import agendaufrnfw.ufrn.imd.pds.dto.EvaluationDTO;
-import agendaufrnfw.ufrn.imd.pds.dto.TaskDTO;
-import agendaufrnfw.ufrn.imd.pds.model.Professor;
+import agendaufrnfw.ufrn.imd.pds.model.calendar.Evaluation;
+import agendaufrnfw.ufrn.imd.pds.model.calendar.Task;
+import agendaufrnfw.ufrn.imd.pds.model.user.Professor;
 import agendaufrnfw.ufrn.imd.pds.util.DateUtil;
 
 public class ProfessorActivity extends AppCompatActivity {
@@ -49,18 +49,18 @@ public class ProfessorActivity extends AppCompatActivity {
                 tvSiape.setText(pDto.getSiape());
                 tvUnidade.setText(pDto.getUnidade());
                 tvDataAdmissao.setText(DateUtil.format(pDto.getData_admissao()));
-                List<TaskDTO> allTasks = new ArrayList<TaskDTO>();
-                List<EvaluationDTO> allEvaluations = new ArrayList<EvaluationDTO>();
+                List<Task> allTasks = new ArrayList<Task>();
+                List<Evaluation> allEvaluations = new ArrayList<Evaluation>();
                 for(ClassDTO classe : pDto.getClasses()){
                     allTasks.addAll(classe.getTasks());
                     allEvaluations.addAll(classe.getEvaluations());
                 }
 
-                ArrayAdapter<TaskDTO> arrayAdapterTarefas = new ArrayAdapter<TaskDTO>(this,
+                ArrayAdapter<Task> arrayAdapterTarefas = new ArrayAdapter<Task>(this,
                         android.R.layout.simple_list_item_1, allTasks);
                 lvTarefas.setAdapter(arrayAdapterTarefas);
 
-                ArrayAdapter<EvaluationDTO> arrayAdapterAvaliacoes = new ArrayAdapter<EvaluationDTO>(this,
+                ArrayAdapter<Evaluation> arrayAdapterAvaliacoes = new ArrayAdapter<Evaluation>(this,
                         android.R.layout.simple_list_item_1, allEvaluations);
                 lvAvaliacoes.setAdapter(arrayAdapterAvaliacoes);
 

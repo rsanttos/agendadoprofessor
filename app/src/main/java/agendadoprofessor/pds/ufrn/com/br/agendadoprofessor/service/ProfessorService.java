@@ -3,8 +3,8 @@ package agendadoprofessor.pds.ufrn.com.br.agendadoprofessor.service;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import agendaufrnfw.ufrn.imd.pds.model.Professor;
-import agendaufrnfw.ufrn.imd.pds.model.factory.ProfessorFactory;
+import agendaufrnfw.ufrn.imd.pds.model.user.Professor;
+import agendaufrnfw.ufrn.imd.pds.model.user.factory.ProfessorFactory;
 import agendaufrnfw.ufrn.imd.pds.request.ProfessorRequest;
 
 /**

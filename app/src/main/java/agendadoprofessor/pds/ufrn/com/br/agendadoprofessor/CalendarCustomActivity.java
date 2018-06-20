@@ -5,22 +5,19 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.EventLog;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.view.OrientationEventListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.applandeo.materialcalendarview.CalendarView;
-import com.applandeo.materialcalendarview.DatePicker;
 import com.applandeo.materialcalendarview.EventDay;
 import com.applandeo.materialcalendarview.exceptions.OutOfDateRangeException;
-import com.applandeo.materialcalendarview.listeners.OnDayClickListener;
 import com.applandeo.materialcalendarview.utils.DateUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
@@ -28,13 +25,15 @@ import java.util.concurrent.ExecutionException;
 
 import agendadoprofessor.pds.ufrn.com.br.agendadoprofessor.service.CalendarService;
 import agendadoprofessor.pds.ufrn.com.br.agendadoprofessor.service.ProfessorService;
-import agendaufrnfw.ufrn.imd.pds.dto.CalendarDTO;
 import agendaufrnfw.ufrn.imd.pds.dto.ClassDTO;
-import agendaufrnfw.ufrn.imd.pds.dto.EvaluationDTO;
-import agendaufrnfw.ufrn.imd.pds.dto.HolidayDTO;
-import agendaufrnfw.ufrn.imd.pds.dto.TaskDTO;
-import agendaufrnfw.ufrn.imd.pds.model.Professor;
-import agendaufrnfw.ufrn.imd.pds.util.DateUtil;
+import agendaufrnfw.ufrn.imd.pds.model.calendar.CalendarUFRN;
+import agendaufrnfw.ufrn.imd.pds.model.calendar.Commitment;
+import agendaufrnfw.ufrn.imd.pds.model.calendar.Evaluation;
+import agendaufrnfw.ufrn.imd.pds.model.calendar.Holiday;
+import agendaufrnfw.ufrn.imd.pds.model.calendar.Meeting;
+import agendaufrnfw.ufrn.imd.pds.model.calendar.OrientationMeeting;
+import agendaufrnfw.ufrn.imd.pds.model.calendar.Task;
+import agendaufrnfw.ufrn.imd.pds.model.user.Professor;
 
 public class CalendarCustomActivity extends AppCompatActivity {
     TextView tvNome;
@@ -68,22 +67,17 @@ public class CalendarCustomActivity extends AppCompatActivity {
     }
 
     private List<EventDay> populaEvents(){
-        List<TaskDTO> allTasks = new ArrayList<TaskDTO>();
-        List<EvaluationDTO> allEvaluations = new ArrayList<EvaluationDTO>();
-        CalendarDTO cDto = null;
+        CalendarUFRN cDto = null;
+        Professor pDto = null;
         if(getIntent().hasExtra("token")){
             String token = getIntent().getStringExtra("token");
             ProfessorService professorService = new ProfessorService(token);
             try {
                 CalendarService calendarService = new CalendarService();
                 cDto = calendarService.execute().get();
-                Professor pDto = professorService.execute().get();
+                pDto = professorService.execute().get();
                 tvNome.setText(pDto.getNome());
                 tvUnidade.setText(pDto.getUnidade());
-                for(ClassDTO classe : pDto.getClasses()){
-                    allTasks.addAll(classe.getTasks());
-                    allEvaluations.addAll(classe.getEvaluations());
-                }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {
@@ -91,46 +85,45 @@ public class CalendarCustomActivity extends AppCompatActivity {
             }
         }
         List<EventDay> allEvents = new ArrayList<EventDay>();
-        allEvents.addAll(criaListaTasks(allTasks));
-        allEvents.addAll(criaListaEvaluations(allEvaluations));
-        allEvents.addAll(criaListaEventosCalendario(cDto));
+        List<Commitment> allCommitments = new ArrayList<>();
+        allCommitments.addAll(pDto.getCommitments());
+        allCommitments.addAll(Arrays.asList(cDto.getHolidays()));
+
+        allEvents = criaListaEventos(allCommitments);
 
         return allEvents;
     }
 
-    private List<EventDay> criaListaEvaluations(List<EvaluationDTO> evaluations){
-        List<EventDay> eventsTasks = new ArrayList<EventDay>();
-        for(EvaluationDTO e : evaluations){
+    private List<EventDay> criaListaEventos(List<Commitment> commitments){
+        List<EventDay> events = new ArrayList<>();
+
+        for(Commitment commitment : commitments){
             Calendar c = Calendar.getInstance();
-            c.setTimeInMillis(e.getData());
-            EventDay eventDay = new EventDay(c, R.drawable.evaluation_icon);
-            eventsTasks.add(eventDay);
+            c.setTimeInMillis(commitment.getFinalDate());
+            EventDay eventDay = null;
+            if(commitment instanceof Task){
+                eventDay = new EventDay(c, R.drawable.task_icon);
+            } else if (commitment instanceof Evaluation) {
+                eventDay = new EventDay(c, R.drawable.evaluation_icon);
+            } else if (commitment instanceof Holiday) {
+                eventDay = new EventDay(c, R.drawable.holiday);
+            } else if (commitment instanceof Meeting){
+                eventDay = new EventDay(c, R.drawable.meeting);
+            } else if (commitment instanceof OrientationMeeting){
+                eventDay = new EventDay(c, R.drawable.orientation_meeting);
+            } else {
+                eventDay = new EventDay(c, R.drawable.sample_icon_1);
+            }
+            events.add(eventDay);
         }
-        return eventsTasks;
+
+        return events;
     }
 
-    private List<EventDay> criaListaTasks(List<TaskDTO> tasks){
-        List<EventDay> eventsTasks = new ArrayList<EventDay>();
-        for(TaskDTO t : tasks){
-            Calendar c = Calendar.getInstance();
-            c.setTimeInMillis(t.getData_entrega());
-            EventDay eventDay = new EventDay(c, R.drawable.task_icon);
-            eventsTasks.add(eventDay);
-        }
-        return eventsTasks;
-    }
-
-    private List<EventDay> criaListaEventosCalendario(CalendarDTO calendarDTO){
+    private List<EventDay> criaListaEventosCalendario(CalendarUFRN calendarDTO){
         List<EventDay> eventsCalendar = new ArrayList<EventDay>();
-        for(HolidayDTO h : calendarDTO.getHolidays()){
-            Calendar c = Calendar.getInstance();
-            c.setTimeInMillis(h.getDate());
-            EventDay eventDay = new EventDay(c, R.drawable.holiday);
-            eventsCalendar.add(eventDay);
-        }
-
         Calendar c = Calendar.getInstance();
-        c.setTimeInMillis(calendarDTO.getEndPeriod());
+        c.setTimeInMillis(calendarDTO.getFim_periodo());
         EventDay eventDay = new EventDay(c, R.drawable.end_period);
         eventsCalendar.add(eventDay);
 
