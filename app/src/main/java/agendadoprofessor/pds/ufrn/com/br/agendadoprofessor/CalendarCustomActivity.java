@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
-import agendadoprofessor.pds.ufrn.com.br.agendadoprofessor.service.CalendarService;
+import agendadoprofessor.pds.ufrn.com.br.agendadoprofessor.service.ProfessorCalendarService;
 import agendadoprofessor.pds.ufrn.com.br.agendadoprofessor.service.ProfessorService;
 import agendaufrnfw.ufrn.imd.pds.dto.ClassDTO;
 import agendaufrnfw.ufrn.imd.pds.model.calendar.CalendarUFRN;
@@ -32,6 +32,7 @@ import agendaufrnfw.ufrn.imd.pds.model.calendar.Evaluation;
 import agendaufrnfw.ufrn.imd.pds.model.calendar.Holiday;
 import agendaufrnfw.ufrn.imd.pds.model.calendar.Meeting;
 import agendaufrnfw.ufrn.imd.pds.model.calendar.OrientationMeeting;
+import agendaufrnfw.ufrn.imd.pds.model.calendar.ProfessorCalendar;
 import agendaufrnfw.ufrn.imd.pds.model.calendar.Task;
 import agendaufrnfw.ufrn.imd.pds.model.user.Professor;
 
@@ -67,14 +68,14 @@ public class CalendarCustomActivity extends AppCompatActivity {
     }
 
     private List<EventDay> populaEvents(){
-        CalendarUFRN cDto = null;
+        ProfessorCalendar pcDto = null;
         Professor pDto = null;
         if(getIntent().hasExtra("token")){
             String token = getIntent().getStringExtra("token");
             ProfessorService professorService = new ProfessorService(token);
             try {
-                CalendarService calendarService = new CalendarService();
-                cDto = calendarService.execute().get();
+                ProfessorCalendarService professorCalendarService = new ProfessorCalendarService();
+                pcDto = professorCalendarService.execute().get();
                 pDto = professorService.execute().get();
                 tvNome.setText(pDto.getNome());
                 tvUnidade.setText(pDto.getUnidade());
@@ -87,9 +88,10 @@ public class CalendarCustomActivity extends AppCompatActivity {
         List<EventDay> allEvents = new ArrayList<EventDay>();
         List<Commitment> allCommitments = new ArrayList<>();
         allCommitments.addAll(pDto.getCommitments());
-        allCommitments.addAll(Arrays.asList(cDto.getHolidays()));
+        allCommitments.addAll(Arrays.asList(pcDto.getHolidays()));
 
         allEvents = criaListaEventos(allCommitments);
+        allEvents.addAll(criaListaEventosCalendario(pcDto));
 
         return allEvents;
     }
@@ -120,10 +122,10 @@ public class CalendarCustomActivity extends AppCompatActivity {
         return events;
     }
 
-    private List<EventDay> criaListaEventosCalendario(CalendarUFRN calendarDTO){
+    private List<EventDay> criaListaEventosCalendario(ProfessorCalendar professorCalendar){
         List<EventDay> eventsCalendar = new ArrayList<EventDay>();
         Calendar c = Calendar.getInstance();
-        c.setTimeInMillis(calendarDTO.getFim_periodo());
+        c.setTimeInMillis(professorCalendar.getFim_periodo());
         EventDay eventDay = new EventDay(c, R.drawable.end_period);
         eventsCalendar.add(eventDay);
 
